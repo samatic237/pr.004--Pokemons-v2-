@@ -1,7 +1,7 @@
 import telebot 
 from config import token
-
-from logic import Pokemon
+from random import randint
+from logic import Pokemon,Wizard,Fighter
 
 bot = telebot.TeleBot(token) 
 
