@@ -1,5 +1,5 @@
 from random import randint
-
+from datetime import datetime,timedelta
 import requests
 
 
@@ -15,7 +15,7 @@ class Pokemon:
         self.name = self.get_name()
         self.hp = randint(10,100)
         self.power = randint(5,40)
-
+        self.last_feed_time
         Pokemon.pokemons[pokemon_trainer] = self
 
     # Метод для получения картинки покемона через API
@@ -42,7 +42,15 @@ class Pokemon:
     # Метод класса для получения информации
     def info(self):
         return f"Имя твоего покеомона: {self.name}\n HP: {self.hp}\n DAMAGE: {self.power}"
-
+    def feed(self, feed_interval = 20, hp_increase = 10 ):
+        current_time = datetime.now()  
+        delta_time = timedelta(second=feed_interval)  
+        if (current_time - self.last_feed_time) > delta_time:
+            self.hp += hp_increase
+            self.last_feed_time = current_time
+            return f"Здоровье покемона увеличено. Текущее здоровье: {self.hp}"
+        else:
+            return f"Следующее время кормления покемона: {current_time+delta_time}"  
     # Метод класса для получения картинки покемона
     def show_img(self):
         return self.img
@@ -62,6 +70,8 @@ class Wizard(Pokemon):
         if isinstance(enemy, Wizard):
                 if randint(1,5) == 1:
                     return "Покемон-волшебник применил щит в сражении"
+    def feed(self):
+        return super().feed(feed_interval = 10, hp_increase = 10)
 class Fighter(Pokemon):
     def info(self):
         return "покемон боец \n"+super().info()
@@ -71,4 +81,6 @@ class Fighter(Pokemon):
         result = super().attack(enemy)
         self.сила -= superpower
         return result + f"\nБоец применил супер-атаку силой:{superpower} "
+    def feed(self):
+        return super().feed(feed_interval = 20, hp_increase = 20)
  
