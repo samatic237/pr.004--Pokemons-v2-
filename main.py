@@ -46,6 +46,12 @@ def info(message):
         bot.send_photo(message.chat.id, pok.show_img())
     else:
         bot.reply_to(message, "Ты ещё не создал себе покемона")
-
+@bot.message_handler(commands=['feed'])
+def feed(message):
+    if message.from_user.username in Pokemon.pokemons.keys():
+        pok = Pokemon.pokemons[message.from_user.username]
+        bot.send_message(message.chat.id, pok.feed())
+    else:
+        bot.reply_to(message, "Ты ещё не создал себе покемона")
 bot.infinity_polling(none_stop=True)
 
